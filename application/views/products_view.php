@@ -32,7 +32,7 @@
                                     }
                                     ?>
                                 </select></td>
-                            <td><textarea name="comment[]"><?php echo $product->comment;?></textarea></td>
+                            <td><textarea name="comment[]"><?php echo htmlentities($product->comment,ENT_QUOTES, "UTF-8");?></textarea></td>
                         </tr>
                     <?php
                     }

@@ -21,7 +21,7 @@ class User
      */
     public function __construct($login="",$pass="") {
 
-        $this->db = DB::getConnection();
+        $this->db = new DB();
         if (!empty($login)AND!empty($pass)) {
             // Если переданы не пустые значения логина и пароля
             if ($this->isLogin($login)) {
@@ -47,8 +47,7 @@ class User
      */
     public function Register($login, $pass) {
         $sql = "INSERT INTO users (login,password) VALUES(:login,:pass)";
-        $result = $this->db->prepare($sql);
-        $result->execute(["login"=>$login,"pass"=>password_hash($pass, PASSWORD_DEFAULT)]);
+        $this->db->query($sql,["login"=>$login,"pass"=>password_hash($pass, PASSWORD_DEFAULT)]);
         return true;
     }
 
@@ -57,10 +56,7 @@ class User
      * @return string
      */
     public function isLogin($login) {
-        $sql = "SELECT * FROM `users` WHERE `login` = :login";
-        $result = $this->db->prepare($sql);
-        $result->execute(["login"=>$login]);
-        $result->setFetchMode(PDO::FETCH_OBJ);
+        $result = $this->db->query("SELECT * FROM `users` WHERE `login` = :login",["login"=>$login]);
         $row_count = $result->rowCount();
         if ($row_count) {
             $row = $result->fetch();
@@ -90,11 +86,8 @@ class User
      * @return string
      */
     static function getName($user_id) {
-        $sql = "SELECT login FROM users WHERE id = :user_id";
-        $dbh = Db::getConnection();
-        $result = $dbh->prepare($sql);
-        $result->execute(["user_id"=>$user_id]);
-        return $result->fetchColumn();
+        $dbh = new DB();
+        return $dbh->query("SELECT login FROM users WHERE id = :user_id",["user_id"=>$user_id])->fetchColumn();
     }
 
 }

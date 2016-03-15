@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: alexander
@@ -11,6 +12,7 @@ require_once 'core/controller.php';
 require_once 'core/route.php';
 require_once 'core/db.php';
 require_once 'core/user.php';
+require_once 'core/my_exception.php';
 require_once 'config.php';
 session_start();
 Route::start(); // запускаем маршрутизатор

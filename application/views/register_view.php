@@ -30,6 +30,9 @@
                                 <input type="password" class="form-control" id="inputPassword" name="pass2" placeholder="Повторите пароль">
                             </div>
                         </div>
+                        <?php if (isset($error_msg)) { ?>
+                            <p class="text-danger"><?php echo $error_msg; ?></p>
+                        <?php } ?>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-default">Создать</button>

@@ -6,16 +6,17 @@
  * Date: 3/14/16
  * Time: 12:55 AM
  */
+
 class Controller_Products extends Controller
 {
     private $user_id = null;
-    private $data = null;
     private $product = null;
 
     public function __construct()
     {
         parent::__construct();
         $this->user_id = $_SESSION['user_id'];
+        $this->loadModel('Model_Products');
         $this->product = new Model_Products();
     }
 
@@ -24,14 +25,15 @@ class Controller_Products extends Controller
      */
     public function index()
     {
+        $data = "";
         if (!$this->user_id) {
-            $this->data['info'] = 'Доступ запрещен! <a href="http://' . URL_SITE . '">Авторизация</a>';
-            $this->view->generate('access_view.php', 'template_view.php', $this->data);
+            $data['info'] = 'Доступ запрещен! <a href="http://' . URL_SITE . '">Авторизация</a>';
+            $this->view->generate('access_view.php', 'template_view.php', $data);
         } else {
-            $this->data['products'] = $this->product->getProducts($this->user_id);
-            $this->data['user_id'] = $this->user_id;
-            $this->data['name'] = User::getName($this->user_id);
-            $this->view->generate('products_view.php', 'template_view.php', $this->data);
+            $data['products'] = $this->product->getProducts($this->user_id);
+            $data['user_id'] = $this->user_id;
+            $data['name'] = User::getName($this->user_id);
+            $this->view->generate('products_view.php', 'template_view.php', $data);
         }
     }
 
@@ -50,16 +52,17 @@ class Controller_Products extends Controller
      * @param null $id
      */
     public function info($id = null) {
+        $data ="";
         if (!$this->user_id) {
-            $this->data['info'] = 'Доступ запрещен! <a href="http://' . URL_SITE . '">Авторизация</a>';
-            $this->view->generate('access_view.php', 'template_view.php', $this->data);
+            $data['info'] = 'Доступ запрещен! <a href="http://' . URL_SITE . '">Авторизация</a>';
+            $this->view->generate('access_view.php', 'template_view.php', $data);
         } else {
-            $this->data['ratings_comments'] = $this->product->getInfo($id);
-            $this->data['name'] = $this->product->getName($id);
+            $data['ratings_comments'] = $this->product->getInfo($id);
+            $data['name'] = $this->product->getName($id);
             $stat_data = $this->product->getStat($id);
-            $this->data['amount'] = $stat_data->amount;
-            $this->data['average'] = $stat_data->average;
-            $this->view->generate('product_view.php', 'template_view.php', $this->data);
+            $data['amount'] = $stat_data->amount;
+            $data['average'] = $stat_data->average;
+            $this->view->generate('product_view.php', 'template_view.php', $data);
         }
     }
 

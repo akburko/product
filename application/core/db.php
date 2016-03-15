@@ -11,11 +11,15 @@ class DB
 
     private static $_db = null;  //экземпляр объекта
 
-    private  function __construct() {
-    }
+    /*private  function __construct() {
+    }*/
 
-    private function __clone() { //запрещаем клонирование объекта модификатором private
-    }
+    /*private function __clone() { //запрещаем клонирование объекта модификатором private
+    }*/
+
+    /*private function __wakeup()
+    {
+    }*/
 
     static public function getConnection()
     {
@@ -42,5 +46,13 @@ class DB
         } // end PDO exists if/else
 
     } // end function getConnection
+
+    public function query($sql,$data) {
+        $db = self::getConnection();
+        $result = $db->prepare($sql);
+        $result->execute($data);
+        $result->setFetchMode(PDO::FETCH_OBJ);
+        return $result;
+    }
 
 }

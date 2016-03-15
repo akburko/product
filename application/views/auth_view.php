@@ -1,11 +1,4 @@
 <div class="container">
-    <?php if (isset($info)) { ?>
-        <div class="row">
-            <div class="col-xs-6 col-md-4 col-xs-offset-6 col-md-offset-4">
-                <div class="alert alert-info"><?php echo $info; ?></div>
-            </div>
-        </div>
-    <?php } ?>
     <div class="row">
         <div class="col-xs-6 col-md-4 col-xs-offset-6 col-md-offset-4">
             <div class="panel panel-default">
@@ -24,6 +17,9 @@
                                 <input type="password" class="form-control" id="inputPassword" name="pass" placeholder="Пароль">
                             </div>
                         </div>
+                        <?php if (isset($error_msg)) { ?>
+                            <p class="text-danger"><?php echo $error_msg; ?></p>
+                        <?php } ?>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-default">Войти</button>

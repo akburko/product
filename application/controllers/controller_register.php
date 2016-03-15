@@ -8,36 +8,28 @@
  */
 class Controller_Register extends Controller
 {
-    private $data = null;
-    private $user = null;
-
     public function index()
     {
+        $data = "";
         if ($_POST['task'] == 'create') {
             $login = $_POST['login'];
             $pass1 = $_POST['pass1'];
             $pass2 = $_POST['pass2'];
             if (($login=="") OR ($pass1=="") OR ($pass2=="")) {
-                $this->data['info'] = 'Не введены данные!';
+                $data['error_msg'] = 'Не введены данные!';
             } else {
-                $this->user = new User();
-                if ($this->user->isLogin($login)) {
-                    $this->data['info'] = 'Логин существует!';
+                $user = new User();
+                if ($user->isLogin($login)) {
+                    $data['error_msg'] = 'Логин существует!';
                 } elseif ($pass1!=$pass2) {
-                    $this->data['info'] = 'Пароли не совпадают!';
+                    $data['error_msg'] = 'Пароли не совпадают!';
                 } else {
                     // Создание пользователя
-                    $this->user->Register($login,$pass1);
-                    //header('Location: Auth');
-                    //exit;
-                    $this->data['info'] = 'Пользователь создан! <a href="Auth">Авторизация</a>';
+                    $user->Register($login,$pass1);
+                    $data['info'] = 'Пользователь создан! <a href="Auth">Авторизация</a>';
                 }
             }
-            $this->view->generate('register_view.php', 'template_view.php',$this->data);
-        } else {
-            $this->data['info'] = 'Пройдите регистрацию!';
-            $this->view->generate('register_view.php', 'template_view.php',$this->data);
         }
-
+        $this->view->generate('register_view.php', 'template_view.php',$data);
     }
 }

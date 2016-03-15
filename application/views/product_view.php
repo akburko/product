@@ -26,7 +26,7 @@
                             }
                             ?>
                         </td>
-                        <td><?php echo $row->comment; ?></td>
+                        <td><?php echo htmlentities($row->comment,ENT_QUOTES, "UTF-8"); ?></td>
                     </tr>
                     <?php
                 }

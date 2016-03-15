@@ -8,7 +8,6 @@
  */
 class Controller
 {
-    public $model;
     public $view;
 
     function __construct()
@@ -18,6 +17,27 @@ class Controller
 
     function index()
     {
+    }
+
+    /**
+     * Функция загрузки файлов классов
+     *
+     * @param $class
+     */
+    function loadModel($model) {
+
+        $model_file = 'application/models/'.strtolower($model).'.php';
+
+        if(file_exists($model_file))
+        {
+            require_once $model_file;
+        }
+        else
+        {
+            new My_Exception("Ошибка создания страницы. Файл подключаемой модели ".$model." не существует.");
+            exit;
+        }
+
     }
 
 }
